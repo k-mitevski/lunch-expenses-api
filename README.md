@@ -6,6 +6,8 @@ Lunch expenses API built using FastAPI and MongoDB.
 
 ## Install
 Create a venv (or don't), install the libraries and run the `main.py`. [Uvicorn](https://www.uvicorn.org/) is used as the ASGI to run the app.
+
+The `MONGO_DETAILS` environment variable is required for the MongoDB connection string.
 ```
 pip install -r requirements.txt
 ```
