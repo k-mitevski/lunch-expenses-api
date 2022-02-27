@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Body, HTTPException
 from fastapi.encoders import jsonable_encoder
-from celery_code import celery_worker
+from api.tasks import aggregation_per_place
 from api.models import AddLunchExpense
 from api.database import (
     retrieve_expenses,
@@ -32,10 +32,12 @@ async def add_lunch_expense(req: AddLunchExpense = Body(...)):
     new_expense = jsonable_encoder(req)
     lunch_place = new_expense['lunch_place_name']
 
-    added_lunch_expense = await add_new_expense(new_expense)
-    total_expenses = await celery_worker.aggregation_per_place(lunch_place)
+    # Celery part
+    total_expenses = aggregation_per_place.delay(lunch_place)
+    get_total_expenses = total_expenses.get()
 
+    added_lunch_expense = await add_new_expense(new_expense)
     if added_lunch_expense:
-        return f'Total money spent at {lunch_place}: ${total_expenses}', added_lunch_expense
+        return f'Total money spent at {lunch_place}: ${get_total_expenses}', added_lunch_expense
     raise HTTPException(status_code=409, detail="Failed to add new lunch expense!")
 
