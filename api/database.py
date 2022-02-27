@@ -1,7 +1,10 @@
+from dotenv import load_dotenv
 import motor.motor_asyncio
 import os
 
-client = motor.motor_asyncio.AsyncIOMotorClient(os.environ.get("MONGO_DETAILS"))
+load_dotenv()
+
+client = motor.motor_asyncio.AsyncIOMotorClient(os.getenv("MONGO_CONN"))
 database = client.expenses
 expenses_collection = database.get_collection("expenses_collection")
 
