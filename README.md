@@ -17,11 +17,11 @@ python main.py
 
 To run the Celery worker:
 ```
-cd celery_code
 celery -A api.tasks worker --loglevel=info
+# If you are on windows append -P threads
 ```
 
-The API currently has three types of requests all available on `/lunch` path.
+Currently, the API has three types of requests all available on `/lunch` path.
 
 ## GET
 
@@ -91,9 +91,9 @@ curl -H 'accept: application/json' http://localhost:5000/lunch/John%20Doe/2
 ]
 ```
 ## POST
-One HTTP POST request is available for adding lunch expenses.
+The API supports HTTP POST request for adding new lunch expenses.
 
-When new expense is added, a task is triggered with Celery to calculate the total money spent at the lunch expense location.
+When a new expense is added, a task is triggered with Celery to calculate the total money spent at the lunch expense location.
 
 Example request:
 ```
