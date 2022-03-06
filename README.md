@@ -18,7 +18,7 @@ python main.py
 To run the Celery worker:
 ```
 cd celery_code
-celery -A celery_worker.celery worker --loglevel=info
+celery -A api.tasks worker --loglevel=info
 ```
 
 The API currently has three types of requests all available on `/lunch` path.
