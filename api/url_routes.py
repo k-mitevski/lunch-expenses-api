@@ -16,7 +16,7 @@ async def all_lunch_expenses():
     lunch_expenses = await retrieve_expenses()
     if lunch_expenses:
         return lunch_expenses
-    raise HTTPException(status_code=409, detail="Failed to retrieve lunch expenses!")
+    raise HTTPException(status_code=404, detail="Failed to retrieve lunch expenses!")
 
 
 @router.get("/{employee_name}/{month}", response_description="Successfully fetched monthly lunch expenses!")
@@ -24,7 +24,7 @@ async def lunch_per_employee(employee_name: str, month: str):
     lunch_expenses = await retrieve_per_employee(employee_name, month)
     if lunch_expenses:
         return lunch_expenses
-    raise HTTPException(status_code=409, detail="Failed to retrieve monthly expenses!")
+    raise HTTPException(status_code=404, detail="Failed to retrieve monthly expenses!")
 
 
 @router.post("/", response_description="New lunch expense added!")
@@ -39,5 +39,5 @@ async def add_lunch_expense(req: AddLunchExpense = Body(...)):
     added_lunch_expense = await add_new_expense(new_expense)
     if added_lunch_expense:
         return f'Total money spent at {lunch_place}: ${get_total_expenses}', added_lunch_expense
-    raise HTTPException(status_code=409, detail="Failed to add new lunch expense!")
+    raise HTTPException(status_code=404, detail="Failed to add new lunch expense!")
 

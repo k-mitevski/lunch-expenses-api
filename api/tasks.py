@@ -15,6 +15,12 @@ celery = Celery(__name__,
                 backend=os.getenv('MONGO_CONN')
                 )
 
+celery.conf.update(
+    task_time_limit=60,
+    task_soft_time_limit=30,
+    task_acks_late=True
+)
+
 celery_log = get_task_logger(__name__)
 
 
